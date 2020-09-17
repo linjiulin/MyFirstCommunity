@@ -9,6 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import java.net.http.HttpRequest;
+
 @Controller
 public class AuthorizeController {
     @Autowired//自动将Spring容器中些写好的事例加载到上下文
@@ -26,7 +29,8 @@ public class AuthorizeController {
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
-                           @RequestParam(name = "state") String state) {
+                           @RequestParam(name = "state") String state,
+                           HttpServletRequest request) { //session是从request中拿到，当将HttpServletRequest放在方法中，Spring就会自动从上下文Request
         AccessTokenDto accessTokenDto = new AccessTokenDto(); //ctrl+shift+v 能快速实例化一个对象
         //shift+enter能快速换行并让光标移到最前
         accessTokenDto.setCode(code);
@@ -38,8 +42,19 @@ public class AuthorizeController {
         GithubUser user = githubProvider.getUser(accessToken);
         System.out.println(user.getName());
         System.out.println(user.getId());
-        return "index";
-
+        if(user !=null){
+            //登录成功，写cookie和session
+            request.getSession().setAttribute("user",user);//获取Session对象并将user对象放置在session中
+            /*
+            此时相当于在银行中已经创建成功一个银行账户，但是并未发给前端一个银行卡
+            如果不手动给账户签发一个银行卡，就会自动生成一个默认的卡，无法自定义
+             */
+            return "redirect:/";//重定向到根目录页面
+        }
+        else{
+            //登录失败，重新登录
+            return "redirect:/";
+        }
     }
 
 }
