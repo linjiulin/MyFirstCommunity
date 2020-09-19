@@ -2,6 +2,8 @@ package com.lingerlin.community.community.controller;
 
 import com.lingerlin.community.community.dto.AccessTokenDto;
 import com.lingerlin.community.community.dto.GithubUser;
+import com.lingerlin.community.community.mapper.UserMapper;
+import com.lingerlin.community.community.model.User;
 import com.lingerlin.community.community.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.http.HttpRequest;
+import java.util.UUID;
 
 @Controller
 public class AuthorizeController {
@@ -27,6 +29,9 @@ public class AuthorizeController {
     @Value("${github.redirect_uri}")
     private String redirectUri;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
@@ -39,12 +44,21 @@ public class AuthorizeController {
         accessTokenDto.setClient_secret(clientSecret);
         accessTokenDto.setRedirect_uri(redirectUri);
         String accessToken = githubProvider.getAccessToken(accessTokenDto);
-        GithubUser user = githubProvider.getUser(accessToken);
-        System.out.println(user.getName());
-        System.out.println(user.getId());
-        if(user !=null){
+        GithubUser githubUser = githubProvider.getUser(accessToken);
+        System.out.println(githubUser.getName());
+        System.out.println(githubUser.getId());
+        if(githubUser !=null){
             //登录成功，写cookie和session
-            request.getSession().setAttribute("user",user);//获取Session对象并将user对象放置在session中
+            User user = new User();
+
+            user.setToken(UUID.randomUUID().toString());
+            user.setName(githubUser.getName());
+            user.setAccountId(String.valueOf(githubUser.getId()));
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
+//            System.out.println("user.setName="+user.getName());
+            userMapper.insert(user);
+            request.getSession().setAttribute("user",githubUser);//获取Session对象并将user对象放置在session中
             /*
             此时相当于在银行中已经创建成功一个银行账户，但是并未发给前端一个银行卡
             如果不手动给账户签发一个银行卡，就会自动生成一个默认的卡，无法自定义
