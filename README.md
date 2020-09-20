@@ -27,4 +27,8 @@ create table USER
         primary key (ID)
 );
 
+```  
+```sql
+alter table USER
+	add BIO VARCHAR(256);
 ```
