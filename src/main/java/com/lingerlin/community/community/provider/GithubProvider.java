@@ -37,7 +37,7 @@ public class GithubProvider {
         try (Response response = client.newCall(request).execute()) {
             String string =  response.body().string();
             String token = string.split("&")[0].split("=")[1];
-            System.out.println(token);
+            System.out.println("获取的token"+token);
             return token;
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,6 +48,7 @@ public class GithubProvider {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url("https://api.github.com/user?access_token="+accessToken)
+                .header("Authorization","tomen"+accessToken)
                 .build();
         Response response = null;
         try {
