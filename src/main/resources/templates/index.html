@@ -2,16 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>菱格社区</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css" />
-    <script src="js/bootstrap.min.js" type="application/javascript" ></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/community.css"/>
+    <script src="js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 <body>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">菱格社区</span>
             </button>
             <a class="navbar-brand" href="#">菱格社区</a>
@@ -28,7 +31,7 @@
                 <li th:if="${session.user!=null}">
                     <a href="/publish">发布</a>
                 </li>
-<!--                <div th:text="${session.user}"></div>-->
+                <!--                <div th:text="${session.user}"></div>-->
                 <li class="dropdown" th:if="${session.user!=null}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false" th:text="${session.user.getName()}"><span class="caret"></span></a>
@@ -39,11 +42,55 @@
                     </ul>
                 </li>
                 <li th:if="${session.user==null}">
-                    <a href="https://github.com/login/oauth/authorize?client_id=1c747ddb3458c5a04f72&redirect_uri=http://localhost:8887/callback&scope=user&state=1">登录</a>
+                    <div class="btn-group navbar-form">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                            登录选项 <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="https://github.com/login/oauth/authorize?client_id=1c747ddb3458c5a04f72&redirect_uri=http://localhost:8887/callback&scope=user&state=1">GitHub登录</a>
+                            </li>
+                            <li><a href="#">QQ登录</a></li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h3><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h3>
+            <hr>
+            <div class="media" th:each="discussion:${discussions}">
+                <div class="media-left">
+                    <a href="#">
+                        <img width="35" class="media-object img-circle"
+                             th:src="${discussion.user.avatar}">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${discussion.title}"></h4>
+                    <span th:text="${discussion.description}"></span><br>
+                    <span class="text">
+                        <span th:text="${discussion.commentCount}?:0"></span>个回复 ·
+                        <span th:text="${discussion.viewCount}?:0"></span> 次浏览 ·
+                        最后修改于 <span th:text="${#dates.format(discussion.gmtModified,'yyyy-MM-dd HH:mm')}"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>
+                热门话题
+            </h3>
+            • 讨论标题: 请用精简的语言描述您发布的讨论，不超过25字<br>
+            • 内容补充: 详细补充您想要内容，并确保内容描述清晰直观, 并提供一些相关的资料<br>
+            • 选择标签: 选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字<br>
+        </div>
+    </div>
+</div>
 </body>
 </html>

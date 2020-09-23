@@ -80,7 +80,6 @@ public class PublishController {
         discussion.setCreator(user.getId());
         discussion.setGmtCreate(System.currentTimeMillis());
         discussion.setGmtModified(discussion.getGmtCreate());
-
         discussionMapper.create(discussion);
         return "redirect:/";
     }
