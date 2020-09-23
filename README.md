@@ -9,9 +9,13 @@
 [GitHub OAuth 文档](https://docs.github.com/en/developers/apps/creating-an-oauth-app)  
 [Mybatis 文档](http://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)    
 [Spring database](https://docs.spring.io/spring-boot/docs/2.0.0.RC1/reference/htmlsingle/#boot-features-embedded-database-support)  
+[bootstrap按钮下拉菜单](https://v3.bootcss.com/components/#btn-dropdowns)  
+[thymeleaf文档](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html)
+
 
 ## 工具  
 [H2数据库](http://www.h2database.com/html/main.html)  
+[LomBok支持](https://projectlombok.org/)  
   
 ## 脚本  
 ```sql
