@@ -14,23 +14,31 @@ public class PageDTO {
     private boolean hasNext;//是否展示后一页按钮
     private boolean hasFirstPage;//是否展示第一页按钮
     private boolean hasEndPage;//是否展示最后一页按钮
-
-    private Integer page; //当前页码变量
+    private Integer totalpage;  //这个变量是总页数
+    private Integer localpage; //当前页码变量
     private List<Integer> pages = new ArrayList<>(); //页面显示的页码的集合
 
     public void setPagination(Integer totalcount,Integer page,Integer size) {
 
-        Integer totalpage;  //这个变量是总页数
         if(totalcount%size==0){
-            totalpage = totalcount /size;
+            totalpage = totalcount/size;
         }
         else{
-           totalpage = totalcount /size +1;
+           totalpage = totalcount/size+1;
         }
-        for(int i = 0;i<=6;i++){
-            if(page-i>0)
+        if(page<1){
+            page=1;
+        }
+        if(page>totalpage){
+            page=totalpage;
+        }
+        this.localpage = page;
+        pages.add(page);
+        for(int i = 1;i<=3;i++){
+            if(page-i>0){
                 pages.add(0,page-i);
-            else if(page+i<=totalpage){
+            }
+            if(page+i<=totalpage){
                 pages.add(page+i);
             }
         }

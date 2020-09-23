@@ -22,10 +22,19 @@ public class DiscussionService {
     private DiscussionMapper discussionMapper;
 
     public PageDTO list(Integer page, Integer size) {
+        PageDTO pageDTO = new PageDTO();
+        Integer totalcount = discussionMapper.count();
+        pageDTO.setPagination(totalcount,page,size);
+        if(page<1){
+            page=1;
+        }
+        if(page>pageDTO.getTotalpage()){
+            page=pageDTO.getTotalpage();
+        }
+
         Integer offset = size *(page-1);
         List<Discussion> discussionList = discussionMapper.list(offset,size);
         List<DiscussionDTO> discussionDTOList = new ArrayList<>();
-        PageDTO pageDTO = new PageDTO();
         for (Discussion discussion : discussionList) {
             User user = userMapper.findById(discussion.getCreator());
             DiscussionDTO discussionDTO = new DiscussionDTO();
@@ -34,8 +43,7 @@ public class DiscussionService {
             discussionDTOList.add(discussionDTO);
         }
         pageDTO.setDiscussions(discussionDTOList);
-        Integer totalcount = discussionMapper.count();
-        pageDTO.setPagination(totalcount,page,size);
+
         return pageDTO;
     }
 }

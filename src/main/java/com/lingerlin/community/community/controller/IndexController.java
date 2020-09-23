@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -25,33 +26,36 @@ public class IndexController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private DiscussionMapper discussionMapper;
 
     @Autowired
     private DiscussionService discussionService;
 
     @GetMapping("/")
     public String index(HttpServletRequest request,
-                        Model model,
                         @RequestParam(name = "page", defaultValue = "1") Integer page,
-                        @RequestParam(name = "size", defaultValue = "5") Integer size) {
-        PageDTO pageDTO = discussionService.list(page, size);
-        model.addAttribute("page", pageDTO);
+                        @RequestParam(name = "size", defaultValue = "6") Integer size,
+                        Model model) {
 
+        PageDTO pageDTO = discussionService.list(page, size);
+        model.addAttribute("pages", pageDTO);
         Cookie[] cookies = request.getCookies();
 
-        if (cookies == null) {
-            return "index";
-        }
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("token")) {
-                String token = cookie.getValue();
-                User user = userMapper.findByToken(token);
-                if (user != null) {
-                    request.getSession().setAttribute("user", user);
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    String token = cookie.getValue();
+                    User user = userMapper.findByToken(token);
+                    if (user != null) {
+                        request.getSession().setAttribute("user", user);
+                    }
+                    break;
                 }
-                break;
             }
         }
+
+
         return "index";
     }
 }
