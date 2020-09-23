@@ -1,6 +1,7 @@
 package com.lingerlin.community.community.service;
 
 import com.lingerlin.community.community.dto.DiscussionDTO;
+import com.lingerlin.community.community.dto.PageDTO;
 import com.lingerlin.community.community.mapper.DiscussionMapper;
 import com.lingerlin.community.community.mapper.UserMapper;
 import com.lingerlin.community.community.model.Discussion;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 @Service
 public class DiscussionService {
@@ -21,9 +21,11 @@ public class DiscussionService {
     @Autowired
     private DiscussionMapper discussionMapper;
 
-    public List<DiscussionDTO> list() {
-        List<Discussion> discussionList = discussionMapper.list();
+    public PageDTO list(Integer page, Integer size) {
+        Integer offset = size *(page-1);
+        List<Discussion> discussionList = discussionMapper.list(offset,size);
         List<DiscussionDTO> discussionDTOList = new ArrayList<>();
+        PageDTO pageDTO = new PageDTO();
         for (Discussion discussion : discussionList) {
             User user = userMapper.findById(discussion.getCreator());
             DiscussionDTO discussionDTO = new DiscussionDTO();
@@ -31,6 +33,9 @@ public class DiscussionService {
             discussionDTO.setUser(user);
             discussionDTOList.add(discussionDTO);
         }
-        return discussionDTOList;
+        pageDTO.setDiscussions(discussionDTOList);
+        Integer totalcount = discussionMapper.count();
+        pageDTO.setPagination(totalcount,page,size);
+        return pageDTO;
     }
 }
