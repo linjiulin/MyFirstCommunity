@@ -16,7 +16,8 @@
 ## 工具  
 [H2数据库](http://www.h2database.com/html/main.html)  
 [LomBok支持](https://projectlombok.org/)  
-[spring-boot devtools](https://docs.spring.io/spring-boot/docs/1.5.16.RELEASE/reference/html/using-boot-devtools.html)
+[spring-boot devtools](https://docs.spring.io/spring-boot/docs/1.5.16.RELEASE/reference/html/using-boot-devtools.html)  
+[JQuery](https://code.jquery.com/jquery-3.5.1.min.js)
   
 ## 脚本  
 ```sql

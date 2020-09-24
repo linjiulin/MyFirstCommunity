@@ -35,7 +35,7 @@ public class IndexController {
     @GetMapping("/")
     public String index(HttpServletRequest request,
                         @RequestParam(name = "page", defaultValue = "1") Integer page,
-                        @RequestParam(name = "size", defaultValue = "6") Integer size,
+                        @RequestParam(name = "size", defaultValue = "5") Integer size,
                         Model model) {
 
         PageDTO pageDTO = discussionService.list(page, size);

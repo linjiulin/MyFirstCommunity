@@ -1,0 +1,15 @@
+2020-09-24 09:31:57 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DISCUSSION" not found; SQL statement:
+select count(1) from discussion [42102-200]
+2020-09-24 09:32:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DISCUSSION" not found; SQL statement:
+select count(1) from discussion [42102-200]
+2020-09-24 09:32:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DISCUSSION" not found; SQL statement:
+select count(1) from discussion [42102-200]
+2020-09-24 09:32:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DISCUSSION" not found; SQL statement:
+select count(1) from discussion [42102-200]
+2020-09-24 09:32:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DISCUSSION" not found; SQL statement:
+select count(1) from discussion [42102-200]

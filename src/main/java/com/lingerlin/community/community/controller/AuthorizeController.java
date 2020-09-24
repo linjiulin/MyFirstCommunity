@@ -38,7 +38,7 @@ public class AuthorizeController {
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
                            HttpServletRequest request,//session是从request中拿到，当将HttpServletRequest放在方法中，Spring就会自动从上下文Request
-                           HttpServletResponse response) {
+                           HttpServletResponse response) throws Exception {
         AccessTokenDto accessTokenDto = new AccessTokenDto(); //ctrl+shift+v 能快速实例化一个对象
         //shift+enter能快速换行并让光标移到最前
         accessTokenDto.setCode(code);
