@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${sectionName}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/community.css"/>
+    <link rel="shortcut icon" href="/img/LOGO.png" type="image/x-icon">
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+</head>
+<body class="body">
+<div th:insert="~{nav::nav}"> </div>
+<div class="container-fluid maini">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span th:text="${sectionName}"></span> </h2>
+            <hr>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="list-group profile-section">
+                <a href="/profile/discussions" th:class="${section=='discussions'}?'list-group-item active':'list-group-item'">我发起的讨论</a>
+                <a href="/profile/replies" th:class="${section=='replies'}?'list-group-item active':'list-group-item'">
+                    最新回复
+                    <span class="badge">10</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

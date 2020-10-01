@@ -3,7 +3,7 @@
     background-color: white;
 }
 .body{
-    background-color: #fbfbfb;
+    background-color: #7f898f;
 }
 .btn-publish{
     float: right;
@@ -13,4 +13,7 @@
     font-size: 12px;
     font-weight: normal;
     color: #999999;
+}
+.profile-section{
+    margin-top: 15px;
 }
