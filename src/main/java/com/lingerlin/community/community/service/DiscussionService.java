@@ -21,6 +21,7 @@ public class DiscussionService {
     @Autowired
     private DiscussionMapper discussionMapper;
 
+
     public PageDTO list(Integer page, Integer size) {
         PageDTO pageDTO = new PageDTO();
         Integer totalcount = discussionMapper.count();
@@ -44,6 +45,31 @@ public class DiscussionService {
         }
         pageDTO.setDiscussions(discussionDTOList);
 
+        return pageDTO;
+    }
+
+    public PageDTO list(Integer id, Integer page, Integer size) {
+        PageDTO pageDTO = new PageDTO();
+        Integer totalcount = discussionMapper.count();
+        pageDTO.setPagination(totalcount,page,size);
+        if(page<1){
+            page=1;
+        }
+        if(page>pageDTO.getTotalpage()){
+            page=pageDTO.getTotalpage();
+        }
+
+        Integer offset = size *(page-1);
+        List<Discussion> discussionList = discussionMapper.listSelf(id,offset,size);
+        List<DiscussionDTO> discussionDTOList = new ArrayList<>();
+        for (Discussion discussion : discussionList) {
+            User user = userMapper.findById(discussion.getCreator());
+            DiscussionDTO discussionDTO = new DiscussionDTO();
+            BeanUtils.copyProperties(discussion,discussionDTO);
+            discussionDTO.setUser(user);
+            discussionDTOList.add(discussionDTO);
+        }
+        pageDTO.setDiscussions(discussionDTOList);
         return pageDTO;
     }
 }

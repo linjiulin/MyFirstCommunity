@@ -18,4 +18,7 @@ public interface DiscussionMapper {
 
     @Select("select count(1) from discussion")
     Integer count();
+
+    @Select("select * from discussion where CREATOR=#{creator} order by GMT_MODIFIED DESC limit #{offset},#{size}")
+    List<Discussion> listSelf(@Param(value = "creator") Integer id,@Param(value = "offset") Integer offset,@Param(value = "size") Integer size);
 }

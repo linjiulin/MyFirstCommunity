@@ -53,16 +53,24 @@ public class AuthorizeController {
         if(githubUser !=null){
             //登录成功，写cookie和session
             User user = new User();
-
             String token = UUID.randomUUID().toString();//抽出token的目的是为了让其代替cookie
-            user.setToken(token);
-            user.setName(githubUser.getName());
-            user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
-            user.setAvatar(githubUser.getAvatar_url());
-            userMapper.insert(user);
-            response.addCookie(new Cookie("token",token));
+            if(userMapper.findByAccountId(String.valueOf(githubUser.getId()),githubUser.getName())!=null){
+                userMapper.updateByAccountId(token,System.currentTimeMillis(),githubUser.getAvatar_url(),githubUser.getBio(),String.valueOf(githubUser.getId()));
+                System.out.println("有这个用户");
+                System.out.println(githubUser.getAvatar_url());
+                response.addCookie(new Cookie("token",token));
+            }
+            else{
+                user.setToken(token);
+                user.setName(githubUser.getName());
+                user.setAccountId(String.valueOf(githubUser.getId()));
+                user.setGmtCreate(System.currentTimeMillis());
+                user.setGmtModified(user.getGmtCreate());
+                user.setBio(githubUser.getBio());
+                user.setAvatar(githubUser.getAvatar_url());
+                userMapper.insert(user);
+                response.addCookie(new Cookie("token",token));
+            }
 
 //            //登录成功，写入session和cookie
 //            request.getSession().setAttribute("user",githubUser);//获取Session对象并将user对象放置在session中
