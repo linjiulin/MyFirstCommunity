@@ -33,29 +33,12 @@ public class IndexController {
     private DiscussionService discussionService;
 
     @GetMapping("/")
-    public String index(HttpServletRequest request,
-                        @RequestParam(name = "page", defaultValue = "1") Integer page,
+    public String index(@RequestParam(name = "page", defaultValue = "1") Integer page,
                         @RequestParam(name = "size", defaultValue = "5") Integer size,
                         Model model) {
 
         PageDTO pageDTO = discussionService.list(page, size);
         model.addAttribute("pages", pageDTO);
-        Cookie[] cookies = request.getCookies();
-
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    User user = userMapper.findByToken(token);
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        }
-
-
         return "index";
     }
 }
