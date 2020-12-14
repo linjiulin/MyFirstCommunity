@@ -1,7 +1,9 @@
 package com.lingerlin.community.community.controller;
 
 import com.lingerlin.community.community.dto.PageDTO;
+import com.lingerlin.community.community.mapper.DiscussionMapper;
 import com.lingerlin.community.community.mapper.UserMapper;
+import com.lingerlin.community.community.model.Discussion;
 import com.lingerlin.community.community.model.User;
 import com.lingerlin.community.community.service.DiscussionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class ProfileController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private DiscussionMapper discussionMapper;
 
     @Autowired
     private DiscussionService discussionService;
@@ -43,7 +48,7 @@ public class ProfileController {
             model.addAttribute("sectionName","最新回复");
         }
         PageDTO pageDTO = discussionService.list(user.getId(),page,size);
-        model.addAttribute("pages", pageDTO);
-        return "profile";
+            model.addAttribute("pages", pageDTO);
+            return "profile";
     }
 }

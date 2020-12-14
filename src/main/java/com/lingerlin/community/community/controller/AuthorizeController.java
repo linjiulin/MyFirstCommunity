@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.UUID;
 
 @Controller
@@ -85,5 +86,14 @@ public class AuthorizeController {
             return "redirect:/";
         }
     }
-
+    //退出登录
+    @GetMapping("/logout")
+    public String logout(HttpSession session,
+                         HttpServletResponse response){
+        session.removeAttribute("user");
+        Cookie cookie = new Cookie("token",null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
+    }
 }

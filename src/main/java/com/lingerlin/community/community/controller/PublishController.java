@@ -4,11 +4,13 @@ import com.lingerlin.community.community.mapper.DiscussionMapper;
 import com.lingerlin.community.community.mapper.UserMapper;
 import com.lingerlin.community.community.model.Discussion;
 import com.lingerlin.community.community.model.User;
+import com.lingerlin.community.community.service.DiscussionService;
 import org.h2.engine.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -24,6 +26,20 @@ public class PublishController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private DiscussionService discussionService;
+
+    @GetMapping("/publish/{id}")
+    public  String edit(@PathVariable(name = "id") Integer id,
+                        Model model){
+        Discussion discussion = discussionMapper.findById(id);
+        System.out.println("标题是："+discussion.getTitle());
+        model.addAttribute("title",discussion.getTitle());
+        model.addAttribute("description",discussion.getDescription());
+        model.addAttribute("tag",discussion.getTag());
+        return "publish";
+    }
+
     @GetMapping("/publish")
     public String publish() {
         return "publish";
@@ -31,6 +47,7 @@ public class PublishController {
 
     @PostMapping("/publish")
     public String doPublish(
+            @RequestParam(value = "id",required = false) Integer id,
             @RequestParam("title") String title,
             @RequestParam("description") String description,
             @RequestParam("tag") String tag,
@@ -57,15 +74,7 @@ public class PublishController {
             model.addAttribute("error", "用户未登录");
             return "publish";
         }
-
-        Discussion discussion = new Discussion();
-        discussion.setTitle(title);
-        discussion.setDescription(description);
-        discussion.setTag(tag);
-        discussion.setCreator(user.getId());
-        discussion.setGmtCreate(System.currentTimeMillis());
-        discussion.setGmtModified(discussion.getGmtCreate());
-        discussionMapper.create(discussion);
+        discussionService.checkDiscussion(id,title,description,tag,user);
         return "redirect:/";
     }
 }

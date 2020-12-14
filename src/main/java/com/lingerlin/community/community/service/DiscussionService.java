@@ -72,4 +72,39 @@ public class DiscussionService {
         pageDTO.setDiscussions(discussionDTOList);
         return pageDTO;
     }
+
+    public DiscussionDTO getById(Integer id) {
+        Discussion discussion = discussionMapper.findById(id);
+        User user = userMapper.findById(discussion.getCreator());
+        DiscussionDTO discussionDTO = new DiscussionDTO();
+        BeanUtils.copyProperties(discussion,discussionDTO);
+        discussionDTO.setUser(user);
+        return discussionDTO;
+    }
+
+    /*此方法用来判断用户发起的是新建讨论请求还是更改讨论请求
+     */
+    public void checkDiscussion(Integer id,String title,String description,String tag,User user){
+        Discussion discussionOld = discussionMapper.findById(id);
+        if(discussionOld!=null){
+            System.out.println("存在讨论");
+            discussionOld.setGmtModified(System.currentTimeMillis());
+            discussionMapper.UpdateById(discussionOld.getId(),
+                    title,
+                    description,
+                    tag,
+                    discussionOld.getGmtModified());
+        }
+        else {
+            Discussion discussion = new Discussion();
+            discussion.setTitle(title);
+            discussion.setDescription(description);
+            discussion.setTag(tag);
+            discussion.setCreator(user.getId());
+            discussion.setGmtCreate(System.currentTimeMillis());
+            discussion.setGmtModified(discussion.getGmtCreate());
+            discussionMapper.create(discussion);
+        }
+        
+    }
 }

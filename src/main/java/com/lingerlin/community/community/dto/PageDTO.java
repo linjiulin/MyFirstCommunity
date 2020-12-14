@@ -4,7 +4,9 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
-/*
+/**
+ * @author lingerlin
+ */ /*
 这个类是用来储存每页查询出来的讨论信息
  */
 @Data
