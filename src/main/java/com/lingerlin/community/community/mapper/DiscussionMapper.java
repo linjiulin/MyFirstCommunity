@@ -32,4 +32,7 @@ public interface DiscussionMapper {
 
     @Update("update DISCUSSION set VIEW_COUNT=VIEW_COUNT+1 where ID=#{id}")
     void UpdateViewById(@Param(value = "id") Integer id);
+
+    @Update("update DISCUSSION set COMMENT_COUNT = COMMENT_COUNT+1 where ID=#{id}")
+    void UpdateCommentCountById(@Param(value = "id") Integer parentId);
 }

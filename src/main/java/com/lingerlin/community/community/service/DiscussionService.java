@@ -96,7 +96,7 @@ public class DiscussionService {
     public DiscussionDTO getById(Integer id) {
         Discussion discussion = discussionMapper.findById(id);
         if(discussion==null){
-            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            throw new CustomizeException(CustomizeErrorCode.DISCUSSION_NOT_FOUND);
         }
         User user = userMapper.findById(discussion.getCreator());
         DiscussionDTO discussionDTO = new DiscussionDTO();
@@ -123,7 +123,7 @@ public class DiscussionService {
                     tag,
                     discussionOld.getGmtModified());
             if(updated!=1){
-                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+                throw new CustomizeException(CustomizeErrorCode.DISCUSSION_NOT_FOUND);
             }
         }
         else {
