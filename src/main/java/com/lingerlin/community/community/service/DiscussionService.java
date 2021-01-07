@@ -2,6 +2,8 @@ package com.lingerlin.community.community.service;
 
 import com.lingerlin.community.community.dto.DiscussionDTO;
 import com.lingerlin.community.community.dto.PageDTO;
+import com.lingerlin.community.community.exception.CustomizeErrorCode;
+import com.lingerlin.community.community.exception.CustomizeException;
 import com.lingerlin.community.community.mapper.DiscussionMapper;
 import com.lingerlin.community.community.mapper.UserMapper;
 import com.lingerlin.community.community.model.Discussion;
@@ -13,6 +15,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author lingerlin
+ */
 @Service
 public class DiscussionService {
     @Autowired
@@ -22,6 +27,11 @@ public class DiscussionService {
     private DiscussionMapper discussionMapper;
 
 
+    /**
+     * @param page
+     * @param size
+     * @return
+     */
     public PageDTO list(Integer page, Integer size) {
         PageDTO pageDTO = new PageDTO();
         Integer totalcount = discussionMapper.count();
@@ -48,6 +58,12 @@ public class DiscussionService {
         return pageDTO;
     }
 
+    /**
+     * @param id
+     * @param page
+     * @param size
+     * @return
+     */
     public PageDTO list(Integer id, Integer page, Integer size) {
         PageDTO pageDTO = new PageDTO();
         Integer totalcount = discussionMapper.count();
@@ -73,8 +89,15 @@ public class DiscussionService {
         return pageDTO;
     }
 
+    /**
+     * @param id 传输的是讨论的id
+     * @return 返回的是一个关联了用户的讨论集合
+     */
     public DiscussionDTO getById(Integer id) {
         Discussion discussion = discussionMapper.findById(id);
+        if(discussion==null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         User user = userMapper.findById(discussion.getCreator());
         DiscussionDTO discussionDTO = new DiscussionDTO();
         BeanUtils.copyProperties(discussion,discussionDTO);
@@ -82,18 +105,26 @@ public class DiscussionService {
         return discussionDTO;
     }
 
-    /*此方法用来判断用户发起的是新建讨论请求还是更改讨论请求
+    /**
+     * @param id 传输的讨论id
+     * @param title 讨论标题
+     * @param description 讨论详细
+     * @param tag 讨论标签
+     * @param user 传输来的用户
      */
     public void checkDiscussion(Integer id,String title,String description,String tag,User user){
         Discussion discussionOld = discussionMapper.findById(id);
         if(discussionOld!=null){
             System.out.println("存在讨论");
             discussionOld.setGmtModified(System.currentTimeMillis());
-            discussionMapper.UpdateById(discussionOld.getId(),
+            int updated = discussionMapper.UpdateById(discussionOld.getId(),
                     title,
                     description,
                     tag,
                     discussionOld.getGmtModified());
+            if(updated!=1){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
         else {
             Discussion discussion = new Discussion();

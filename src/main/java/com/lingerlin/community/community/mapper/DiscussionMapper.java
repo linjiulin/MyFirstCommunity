@@ -24,7 +24,7 @@ public interface DiscussionMapper {
     Discussion findById(@Param(value = "id") Integer id);
 
     @Update("update discussion set TITLE = #{title},DESCRIPTION = #{description},TAG=#{tag},GMT_MODIFIED=#{gmtModified} where ID = #{id}")
-    void UpdateById(@Param(value = "id") Integer id,
+    int UpdateById(@Param(value = "id") Integer id,
                     @Param(value = "title") String title,
                     @Param(value = "description") String description,
                     @Param(value = "tag") String tag,

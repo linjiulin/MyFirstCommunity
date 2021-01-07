@@ -44,12 +44,6 @@ public class PageDTO {
                 pages.add(page+i);
             }
         }
-
-
-        System.out.println("totalcount是："+totalcount);
-        System.out.println("totalpage是："+totalpage);
-        System.out.println("page是："+page);
-        System.out.println(pages);
         if(page==1){//是否展示上一页
             hasPrevious=false;
         }

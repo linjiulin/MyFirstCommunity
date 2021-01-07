@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>菱格社区</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/community.css"/>
+    <link rel="shortcut icon" href="/img/LOGO.png" type="image/x-icon">
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+</head>
+<body class="error-body">
+<div th:insert="~{nav::nav}"></div>
+<div class="jumbotron" style="min-height: 300px;">
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12"><h1>出错啦！！！</h1>
+        <p th:text="${message}">服务太热啦，要不然稍等下再来试试~</p>
+        <br><br><br><br>
+        <p><a class="btn btn-primary btn-lg" href="/" role="button">回到主页</a></p>
+    </div>
+</div>
+
+<!--<div th:insert="~{footer :: foot}"></div>-->
+</body>
+</html>

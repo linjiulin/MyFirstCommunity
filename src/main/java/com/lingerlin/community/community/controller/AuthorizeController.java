@@ -5,6 +5,7 @@ import com.lingerlin.community.community.dto.GithubUser;
 import com.lingerlin.community.community.mapper.UserMapper;
 import com.lingerlin.community.community.model.User;
 import com.lingerlin.community.community.provider.GithubProvider;
+import com.lingerlin.community.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ public class AuthorizeController {
     @Value("${github.client_id}")
     private String clientId;
 
-    //这个注解会自动去配置文件中读取Key是client_id的value
+    /**这个注解会自动去配置文件中读取Key是client_id的value*/
     @Value("${github.client_secret}")
     private String clientSecret;
 
@@ -34,6 +35,9 @@ public class AuthorizeController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
@@ -50,35 +54,11 @@ public class AuthorizeController {
         String accessToken = githubProvider.getAccessToken(accessTokenDto);
         System.out.println("AT是："+accessToken);
         GithubUser githubUser = githubProvider.getUser(accessToken);
-//        System.out.println(githubUser.getAvatar_url()+"是头像");
         if(githubUser !=null){
             //登录成功，写cookie和session
             User user = new User();
             String token = UUID.randomUUID().toString();//抽出token的目的是为了让其代替cookie
-            if(userMapper.findByAccountId(String.valueOf(githubUser.getId()),githubUser.getName())!=null){
-                userMapper.updateByAccountId(token,System.currentTimeMillis(),githubUser.getAvatar_url(),githubUser.getBio(),String.valueOf(githubUser.getId()));
-                System.out.println("有这个用户");
-                System.out.println(githubUser.getAvatar_url());
-                response.addCookie(new Cookie("token",token));
-            }
-            else{
-                user.setToken(token);
-                user.setName(githubUser.getName());
-                user.setAccountId(String.valueOf(githubUser.getId()));
-                user.setGmtCreate(System.currentTimeMillis());
-                user.setGmtModified(user.getGmtCreate());
-                user.setBio(githubUser.getBio());
-                user.setAvatar(githubUser.getAvatar_url());
-                userMapper.insert(user);
-                response.addCookie(new Cookie("token",token));
-            }
-
-//            //登录成功，写入session和cookie
-//            request.getSession().setAttribute("user",githubUser);//获取Session对象并将user对象放置在session中
-            /*
-            此时相当于在银行中已经创建成功一个银行账户，但是并未发给前端一个银行卡
-            如果不手动给账户签发一个银行卡，就会自动生成一个默认的卡，无法自定义
-             */
+            userService.checkUser(githubUser,response,token,user);//判断用户
             return "redirect:/";//重定向到根目录页面
         }
         else{
@@ -86,7 +66,13 @@ public class AuthorizeController {
             return "redirect:/";
         }
     }
-    //退出登录
+
+    /**
+     * @param session
+     * @param response
+     * @return
+     */
+    /*退出登录 */
     @GetMapping("/logout")
     public String logout(HttpSession session,
                          HttpServletResponse response){
