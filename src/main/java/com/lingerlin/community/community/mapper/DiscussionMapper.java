@@ -30,4 +30,6 @@ public interface DiscussionMapper {
                     @Param(value = "tag") String tag,
                     @Param(value = "gmtModified") Long gmtModified);
 
+    @Update("update DISCUSSION set VIEW_COUNT=VIEW_COUNT+1 where ID=#{id}")
+    void UpdateViewById(@Param(value = "id") Integer id);
 }

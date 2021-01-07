@@ -138,4 +138,10 @@ public class DiscussionService {
         }
         
     }
+
+    public void incView(Integer id) {
+        Discussion discussion = discussionMapper.findById(id);
+        System.out.println("阅读数是："+discussion.getViewCount());
+        discussionMapper.UpdateViewById(id);
+    }
 }

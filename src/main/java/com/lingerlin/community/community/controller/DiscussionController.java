@@ -22,6 +22,8 @@ public class DiscussionController {
             Model model,
             @PathVariable(name = "id") Integer id){
         DiscussionDTO discussionDTO = discussionService.getById(id);
+        //累加阅读数
+        discussionService.incView(id);
         model.addAttribute("discussion",discussionDTO);
         return "discussion";
     }
