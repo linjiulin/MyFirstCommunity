@@ -10,7 +10,7 @@
     margin-bottom: 15px;
 }
 .text{
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
     color: #999999;
 }
@@ -18,8 +18,10 @@
     margin-top: 15px;
 }
 .community-menu{
+    display: block;
     color: #999;
     font-size: 13px;
+    margin-bottom: 15px;
 }
 .jumbotron{
     margin: 50px;
@@ -59,4 +61,7 @@
 .coments{
     margin-bottom: 15px;
     border-bottom: 1px solid #eeeeee;
+}
+.discussion_title{
+    margin-top: 30px;
 }

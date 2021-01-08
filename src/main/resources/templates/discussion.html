@@ -15,15 +15,19 @@
 <div th:insert="~{nav::nav}"> </div>
 <div class="container-fluid main">
     <div class="row">
+        <!--左边主要内容块-->
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <!--讨论正文-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h3><span th:text="${discussion.title}"></span></h3>
+                <h3 class="discussion_title">
+                    <span th:text="${discussion.title}"></span>
+                </h3>
                 <span class="text">
                 作者 <a th:text="${discussion.user.name}"></a> |
                 浏览量：<span th:text="${discussion.viewCount}?:0"></span> |
                 最后修改于:<span th:text="${#dates.format(discussion.gmtModified,'yyyy-MM-dd HH:mm')}"></span>
                 </span>
-                <hr>
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${discussion.description}">
                 </div>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -32,44 +36,48 @@
                     编辑
                 </a>
             </div>
-            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp">
             <!--回复-->
-            <h3>
-                <span th:text="${discussion.commentCount}"></span>个回复
-            </h3>
-            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 coments" th:each="comment:${comment}">
-                <div class="media">
-                    <div class="media-left">
-                        <a href="#">
-                            <img width="38" class="media-object img-rounded" th:src="${comment.user.avatar}" style="float:left">
-                        </a>
-                    </div>
-                    <div class="media-body comment-media-text ">
-                        <h4 class="media-heading">
-                            <span th:text="${comment.user.name}"></span>
-                        </h4>
-                        <div th:text="${comment.content}"></div>
-                        <div class="menu">
-                            <span class="glyphicon glyphicon-thumbs-up icon"></span>
-                            <span class="glyphicon glyphicon-comment icon"></span>
-                            <span class="pull-right" th:text="${#dates.format(discussion.gmtModified,'yyyy-MM-dd')}"></span>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h3>
+                    <span th:text="${discussion.commentCount}"></span>个回复
+                </h3>
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 coments" th:each="comment:${comment}">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img width="38" class="media-object img-rounded" th:src="${comment.user.avatar}" style="float:left">
+                            </a>
+                        </div>
+                        <div class="media-body comment-media-text ">
+                            <h4 class="media-heading">
+                                <span th:text="${comment.user.name}"></span>
+                            </h4>
+                            <div th:text="${comment.content}"></div>
+                            <div class="menu">
+                                <span class="glyphicon glyphicon-thumbs-up icon"></span>
+                                <span class="glyphicon glyphicon-comment icon"></span>
+                                <span class="pull-right" th:text="${#dates.format(discussion.gmtModified,'yyyy-MM-dd')}"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!--回复输入框-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment_section">
+                <h3>
+                    提交回复
+                </h3>
                 <div class="media">
                     <div class="media-left">
-                        <a href="#">
-                            <img width="44" class="media-object img-rounded" th:src="${discussion.user.avatar}" style="float:left">
-                        </a>
+                            <a href="#" th:if="${session.user!=null}">
+                                <img width="44" class="media-object img-rounded" th:src="${session.user.avatar}" style="float:left">
+                            </a>
                     </div>
                     <div class="media-body media-text">
-                        <h4 class="media-heading">
-                            <span th:text="${discussion.user.name}"></span>
-                        </h4>
+                            <h4 class="media-heading" th:if="${session.user!=null}">
+                                <span th:text="${session.user.name}"></span>
+                            </h4>
                     </div>
                 </div>
                 <input type="hidden" id="discussion_id" th:value="${discussion.id}">
@@ -77,6 +85,7 @@
                 <button type="button" class="btn btn-success comment-btn" onclick="post()">回复</button>
             </div>
         </div>
+        <!--右边信息块-->
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h3>发起人</h3>
