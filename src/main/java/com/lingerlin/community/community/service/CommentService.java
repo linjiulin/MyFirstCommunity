@@ -60,8 +60,8 @@ public class CommentService {
         }
     }
 
-    public List<CommentDTO> listByDiscussionId(Integer id) {
-        List<Comment> comments = commentMapper.listByParentId(id,CommentTypeEnum.DISCUSSION.getType());
+    public List<CommentDTO> listByParentId(Integer id,Integer type) {
+        List<Comment> comments = commentMapper.listByParentId(id,type);
         System.out.println("查询出来的Comment为:"+comments);
         if(comments.size()==0){
             return new ArrayList<>();

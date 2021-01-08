@@ -46,6 +46,9 @@
     padding-top: 12px;
     font-size: 15px;
 }
+.comment-media-object{
+    width:38px;
+}
 .menu{
     color: #999;
     margin-top: 5px;
@@ -55,12 +58,25 @@
     font-size: 18px;
     cursor: pointer;
 }
+.menu .active{
+    color: #499ef3;
+}
 .menu .icon:hover{
     color: #499ef3;
 }
-.coments{
+.comments{
     margin-bottom: 15px;
     border-bottom: 1px solid #eeeeee;
+}
+.sub-comments{
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 1px solid #eee;
+    padding-top: 15px;
+    margin-bottom: 15px;
+}
+.sub-comments .btn{
+    margin: 10px 0;
 }
 .discussion_title{
     margin-top: 30px;

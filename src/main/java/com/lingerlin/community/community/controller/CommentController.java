@@ -1,7 +1,9 @@
 package com.lingerlin.community.community.controller;
 
 import com.lingerlin.community.community.dto.CommentCreateDTO;
+import com.lingerlin.community.community.dto.CommentDTO;
 import com.lingerlin.community.community.dto.ResultDTO;
+import com.lingerlin.community.community.enums.CommentTypeEnum;
 import com.lingerlin.community.community.exception.CustomizeErrorCode;
 import com.lingerlin.community.community.mapper.CommentMapper;
 import com.lingerlin.community.community.model.Comment;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author lingerlin
@@ -42,5 +45,12 @@ public class CommentController {
         comment.setLikeCount(0L);
         commentService.insert(comment);
         return ResultDTO.okOf();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/comment/{id}", method = RequestMethod.GET)
+    public ResultDTO<List> comment(@PathVariable(name="id") Integer id){
+        List<CommentDTO> commentDTOList = commentService.listByParentId(id, CommentTypeEnum.COMMENT.getType());
+        return ResultDTO.okOf(commentDTOList);
     }
 }

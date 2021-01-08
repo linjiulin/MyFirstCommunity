@@ -42,22 +42,28 @@
                     <span th:text="${discussion.commentCount}"></span>个回复
                 </h3>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 coments" th:each="comment:${comment}">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comments" th:each="comment:${comment}">
                     <div class="media">
                         <div class="media-left">
                             <a href="#">
                                 <img width="38" class="media-object img-rounded" th:src="${comment.user.avatar}" style="float:left">
                             </a>
                         </div>
-                        <div class="media-body comment-media-text ">
+                        <div class="media-body comment-media-text " th:id="${'comment-body-'+comment.id}">
                             <h4 class="media-heading">
                                 <span th:text="${comment.user.name}"></span>
                             </h4>
                             <div th:text="${comment.content}"></div>
                             <div class="menu">
                                 <span class="glyphicon glyphicon-thumbs-up icon"></span>
-                                <span class="glyphicon glyphicon-comment icon"></span>
+                                <span class="glyphicon glyphicon-comment icon" th:data-id="${comment.id}" onclick="collapseComments(this)"></span>
                                 <span class="pull-right" th:text="${#dates.format(discussion.gmtModified,'yyyy-MM-dd')}"></span>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comments" th:id="${'comment-'+comment.id}">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <input type="text" class="form-control" placeholder="评论一下......" th:id="${'input-'+comment.id}">
+                                    <button type="button" class="btn btn-success pull-right" onclick="comment(this)" th:data-id="${comment.id}">评论</button>
+                                </div>
                             </div>
                         </div>
                     </div>
