@@ -5,7 +5,7 @@ package com.lingerlin.community.community.enums;
  */
 
 public enum CommentTypeEnum {
-    QUESTION(1),
+    DISCUSSION(1),
     COMMENT(2);
     private Integer type;
 

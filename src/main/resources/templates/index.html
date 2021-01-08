@@ -10,6 +10,15 @@
     <link rel="shortcut icon" href="/img/LOGO.png" type="image/x-icon">
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 </head>
+<script type="application/javascript">
+    window.onload = function(){
+       var closable =  window.localStorage.getItem("closable");
+       if(closable=="true"){
+           window.close();
+           window.localStorage.removeItem("closable");
+       }
+    }
+</script>
 <body class="body">
 <div th:insert="~{nav::nav}"></div>
 <div class="container-fluid main">
