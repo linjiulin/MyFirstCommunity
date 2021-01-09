@@ -10,6 +10,7 @@
     <!--    <link rel="shortcut icon" href="/img/LOGO.png" type="image/x-icon">-->
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <script src="/js/community.js" type="application/javascript"></script>
+    <script src="/js/moment.js" type="application/javascript"></script>
 </head>
 <body class="body">
 <div th:insert="~{nav::nav}"> </div>
@@ -26,9 +27,18 @@
                 作者 <a th:text="${discussion.user.name}"></a> |
                 浏览量：<span th:text="${discussion.viewCount}?:0"></span> |
                 最后修改于:<span th:text="${#dates.format(discussion.gmtModified,'yyyy-MM-dd HH:mm')}"></span>
+                    <br>
+                    <br>
+                    <span class="label label-info discussion-label" th:each="tag:${discussion.tag.split(',')}">
+                        <span class="glyphicon glyphicon-tags"></span>
+                        <span class="label label-info" th:text="${tag}"></span>
+                    </span>
+                    <br>
                 </span>
+                <br>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${discussion.description}">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 discussion-text" th:text="${discussion.description}">
                 </div>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <a th:href="@{'/publish/'+${discussion.id}}" class="community-menu" th:if="${session.user!=null && session.user.id == discussion.creator}">
@@ -56,7 +66,7 @@
                             <div th:text="${comment.content}"></div>
                             <div class="menu">
                                 <span class="glyphicon glyphicon-thumbs-up icon"></span>
-                                <span class="glyphicon glyphicon-comment icon" th:data-id="${comment.id}" onclick="collapseComments(this)"></span>
+                                <span class="glyphicon glyphicon-comment icon" th:data-id="${comment.id}" onclick="collapseComments(this)" th:text="${comment.commentCount}"></span>
                                 <span class="pull-right" th:text="${#dates.format(discussion.gmtModified,'yyyy-MM-dd')}"></span>
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comments" th:id="${'comment-'+comment.id}">
@@ -93,6 +103,7 @@
         </div>
         <!--右边信息块-->
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <br>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h3>发起人</h3>
                 <div class="media">
@@ -107,6 +118,25 @@
                         </h4>
                     </div>
                 </div>
+            </div>
+            <br>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 related-hr">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h2>
+                    相关问题
+                </h2>
+                <ul class="related-discussion">
+                    <li  th:each="realteddiscussion:${realtedDiscussion}" class="related-li">
+                        <a th:href="@{'/discussion/'+${realteddiscussion.id}}" th:text="${realteddiscussion.title}"></a>
+                    </li>
+                </ul>
+            </div>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 related-hr">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h3>
+                    相关推荐
+                </h3>
+                <img class="img-thumbnail discussion-recommend" src="/img/CHAIN.jpg">
             </div>
         </div>
     </div>

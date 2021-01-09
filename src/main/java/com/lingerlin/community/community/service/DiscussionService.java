@@ -8,12 +8,15 @@ import com.lingerlin.community.community.mapper.DiscussionMapper;
 import com.lingerlin.community.community.mapper.UserMapper;
 import com.lingerlin.community.community.model.Discussion;
 import com.lingerlin.community.community.model.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author lingerlin
@@ -143,5 +146,17 @@ public class DiscussionService {
         Discussion discussion = discussionMapper.findById(id);
         System.out.println("阅读数是："+discussion.getViewCount());
         discussionMapper.UpdateViewById(id);
+    }
+
+    public List<Discussion> getRelatedDiscussionBytag(DiscussionDTO discussionDTO) {
+        if(StringUtils.isBlank(discussionDTO.getTag())){
+            return new ArrayList<>();
+        }
+        String[] tags = StringUtils.split(discussionDTO.getTag(),',');
+        String tagRegex = Arrays.stream(tags).collect(Collectors.joining("|"));
+
+        System.out.println(tagRegex);
+        List<Discussion> discussionList = discussionMapper.getRelatedDiscussionBytag(discussionDTO.getId(),tagRegex);
+        return discussionList;
     }
 }

@@ -1,10 +1,7 @@
 package com.lingerlin.community.community.mapper;
 
 import com.lingerlin.community.community.model.Comment;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,4 +19,7 @@ public interface CommentMapper {
 
     @Select("select * from COMMENT where PARENT_ID=#{id} and TYPE=#{type}")
     List<Comment> listByParentId(@Param(value = "id") Integer id, @Param(value = "type") Integer type);
+
+    @Update("update COMMENT set COMMENT_COUNT = COMMENT_COUNT+1 where ID=#{id}")
+    void UpdateCommentCountById(@Param(value = "id") Integer parentId);
 }

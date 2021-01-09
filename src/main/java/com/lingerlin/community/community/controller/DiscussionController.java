@@ -3,6 +3,7 @@ package com.lingerlin.community.community.controller;
 import com.lingerlin.community.community.dto.CommentDTO;
 import com.lingerlin.community.community.dto.DiscussionDTO;
 import com.lingerlin.community.community.enums.CommentTypeEnum;
+import com.lingerlin.community.community.model.Discussion;
 import com.lingerlin.community.community.service.CommentService;
 import com.lingerlin.community.community.service.DiscussionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,13 @@ public class DiscussionController {
             @PathVariable(name = "id") Integer id){
         DiscussionDTO discussionDTO = discussionService.getById(id);
         List<CommentDTO> commentDTOList = commentService.listByParentId(id, CommentTypeEnum.DISCUSSION.getType());
+        List<Discussion> relatedDiscussionList = discussionService.getRelatedDiscussionBytag(discussionDTO);
+        System.out.println(relatedDiscussionList);
         //累加阅读数
         discussionService.incView(id);
         model.addAttribute("discussion",discussionDTO);
         model.addAttribute("comment",commentDTOList);
+        model.addAttribute("realtedDiscussion",relatedDiscussionList);
         return "discussion";
     }
 }

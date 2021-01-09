@@ -47,6 +47,7 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             commentMapper.insert(comment);
+            commentMapper.UpdateCommentCountById(comment.getParentId());
         }
         else{
             //回复讨论

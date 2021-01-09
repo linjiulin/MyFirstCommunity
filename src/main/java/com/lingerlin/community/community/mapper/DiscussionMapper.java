@@ -3,6 +3,7 @@ package com.lingerlin.community.community.mapper;
 import com.lingerlin.community.community.dto.DiscussionDTO;
 import com.lingerlin.community.community.model.Discussion;
 import org.apache.ibatis.annotations.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -35,4 +36,7 @@ public interface DiscussionMapper {
 
     @Update("update DISCUSSION set COMMENT_COUNT = COMMENT_COUNT+1 where ID=#{id}")
     void UpdateCommentCountById(@Param(value = "id") Integer parentId);
+
+    @Select("select * from DISCUSSION WHERE id != ${id} AND TAG REGEXP \'${tag}\'")
+    List<Discussion> getRelatedDiscussionBytag(@Param(value = "id") Integer id,@Param(value = "tag") String tagRegex);
 }

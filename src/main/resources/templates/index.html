@@ -44,6 +44,7 @@
                         最后修改于 <span th:text="${#dates.format(discussion.gmtModified,'yyyy-MM-dd HH:mm')}"></span>
                     </span>
                 </div>
+                <br>
             </div>
             <nav aria-label="Page navigation">
                 <ul class="pagination">
@@ -76,12 +77,23 @@
             </nav>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h3>
-                热门话题
-            </h3>
-            • 讨论标题: 请用精简的语言描述您发布的讨论，不超过25字<br>
-            • 内容补充: 详细补充您想要内容，并确保内容描述清晰直观, 并提供一些相关的资料<br>
-            • 选择标签: 选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字<br>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h3>
+                    热门话题
+                </h3>
+                • 讨论标题: 请用精简的语言描述您发布的讨论，不超过25字<br>
+                • 内容补充: 详细补充您想要内容，并确保内容描述清晰直观, 并提供一些相关的资料<br>
+                • 选择标签: 选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字<br>
+            </div>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 related-hr">
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h3>
+                    相关推荐
+                </h3>
+<!--                <img class="img-thumbnail discussion-recommend" src="/img/CHAIN.jpg">-->
+                <img class="img-thumbnail discussion-recommend" src="/img/IMG_20180417_144642.png">
+            </div>
         </div>
     </div>
 </div>

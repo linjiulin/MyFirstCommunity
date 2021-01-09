@@ -92,7 +92,7 @@ function collapseComments(e) {
                         "class": "menu"
                     }).append($("<span/>", {
                         "class": "pull-right",
-                        // "html": moment(comment.gmtCreate).format('YYYY-MM-DD')
+                        "html": moment(comment.gmtCreate).format('YYYY-MM-DD')
                     })));
 
                     var mediaElement = $("<div/>", {

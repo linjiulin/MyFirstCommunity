@@ -13,6 +13,7 @@
     font-size: 14px;
     font-weight: normal;
     color: #999999;
+    margin-top: 19px;
 }
 .profile-section{
     margin-top: 15px;
@@ -80,4 +81,27 @@
 }
 .discussion_title{
     margin-top: 30px;
+}
+.discussion-text{
+    font-size: 17px;
+}
+.discussion-label{
+    margin-left: 13px;
+}
+.related-hr{
+    margin-top: 21px;
+    width: 415px;
+}
+.related-discussion{
+    line-height: 20px;
+    font-size: 17px;
+    margin-left: 0;
+    list-style: none;
+    padding-left: 0;
+}
+.related-li{
+    padding-top: 12px;
+}
+.discussion-recommend{
+    width: 80%;
 }
