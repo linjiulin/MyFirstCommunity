@@ -1,10 +1,12 @@
 package com.lingerlin.community.community.controller;
 
+import com.lingerlin.community.community.cache.TagCache;
 import com.lingerlin.community.community.mapper.DiscussionMapper;
 import com.lingerlin.community.community.mapper.UserMapper;
 import com.lingerlin.community.community.model.Discussion;
 import com.lingerlin.community.community.model.User;
 import com.lingerlin.community.community.service.DiscussionService;
+import org.apache.commons.lang3.StringUtils;
 import org.h2.engine.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,11 +39,13 @@ public class PublishController {
         model.addAttribute("title",discussion.getTitle());
         model.addAttribute("description",discussion.getDescription());
         model.addAttribute("tag",discussion.getTag());
+        model.addAttribute("tags",TagCache.get());
         return "publish";
     }
 
     @GetMapping("/publish")
-    public String publish() {
+    public String publish(Model model) {
+        model.addAttribute("tags",TagCache.get());
         return "publish";
     }
 
@@ -56,7 +60,6 @@ public class PublishController {
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);
-
         if (title == null || title == "") {
             model.addAttribute("error", "标题不能为空");
             return "publish";
@@ -67,6 +70,11 @@ public class PublishController {
         }
         if (tag == null || tag == "") {
             model.addAttribute("error", "标签不能为空");
+            return "publish";
+        }
+        String invalid = TagCache.filterInvalid(tag);
+        if (StringUtils.isNotBlank(invalid)) {
+            model.addAttribute("error", "输入了非法标签:" + invalid);
             return "publish";
         }
         User user = (User)request.getSession().getAttribute("user");

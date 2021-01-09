@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="/img/LOGO.png" type="image/x-icon">
     <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/community.js" type="application/javascript"></script>
 </head>
 <body class="body">
 <div th:insert="~{nav::nav}"> </div>
@@ -22,7 +23,7 @@
                 <div class="form-group">
                     <label for="title">你想要讨论的内容</label>
                     <input type="text" class="form-control" th:value="${title}" id="title" name="title"
-                           placeholder="问题标题">
+                           placeholder="问题标题" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="title">内容详细描述(必填，请参照右边提示)</label>
@@ -32,19 +33,54 @@
                 <div class="form-group">
                     <label for="title">添加标签</label>
                     <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag"
-                           placeholder="添加标签，以“,”分隔">
+                           placeholder="添加标签，以“,”分隔" autocomplete="off" onclick="showSelectTag()">
+                    <div id="select-tag" class="publish-tag-tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" th:each="selectCategory,selectCategoryStat: ${tags}"
+                                th:class="${selectCategoryStat.first ? 'active':''}">
+                                <a th:href="${'#'+selectCategory.categoryName}" aria-controls="home" role="tab"
+                                   data-toggle="tab" th:text="${selectCategory.categoryName}"></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" th:id="${selectCategory.categoryName}"
+                                 th:each="selectCategory: ${tags}"
+                                 th:class="${selectCategoryStat.first ? 'active tab-pane':'tab-pane'}">
+                                <span>
+                                    <span class="label label-info" th:each="selectTag: ${selectCategory.tags}">
+                                    <span onclick="selectTag(this)"
+                                          th:data-tag="${selectTag}"
+                                          th:text="${' '+selectTag}">
+                                    </span>
+                                </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <span class="alert alert-danger" th:text="${error}" th:if="${error!=null}"></span>
                 <button type="submit" class="btn btn-success btn-publish">发布</button>
             </form>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h3>
-                讨论发起指南
-            </h3>
-            • 讨论标题: 请用精简的语言描述您发布的讨论，不超过25字<br>
-            • 内容补充: 详细补充您想要内容，并确保内容描述清晰直观, 并提供一些相关的资料<br>
-            • 选择标签: 选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字<br>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h3>
+                    讨论发起指南
+                </h3>
+                • 讨论标题: 请用精简的语言描述您发布的讨论，不超过25字<br>
+                • 内容补充: 详细补充您想要内容，并确保内容描述清晰直观, 并提供一些相关的资料<br>
+                • 选择标签: 选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字<br>
+            </div>
+
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 related-hr">
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h3>
+                    相关推荐
+                </h3>
+                <!--                <img class="img-thumbnail discussion-recommend" src="/img/CHAIN.jpg">-->
+                <img class="img-thumbnail discussion-recommend" src="/img/alipay.jpg">
+            </div>
         </div>
     </div>
 </div>

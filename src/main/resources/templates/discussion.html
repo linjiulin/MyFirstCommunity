@@ -62,6 +62,7 @@
                         <div class="media-body comment-media-text " th:id="${'comment-body-'+comment.id}">
                             <h4 class="media-heading">
                                 <span th:text="${comment.user.name}"></span>
+                                <span th:if="${comment.user.id==discussion.user.id}">(题主)</span>
                             </h4>
                             <div th:text="${comment.content}"></div>
                             <div class="menu">
@@ -109,7 +110,7 @@
                 <div class="media">
                     <div class="media-left">
                         <a href="#">
-                            <img width="44" class="media-object img-rounded" th:src="${discussion.user.avatar}" style="float:left">
+                            <img width="44" class="media-object img-rounded media-img" th:src="${discussion.user.avatar}" style="float:left">
                         </a>
                     </div>
                     <div class="media-body media-text">
@@ -122,9 +123,14 @@
             <br>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 related-hr">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h2>
-                    相关问题
-                </h2>
+                <h3>
+                    相关讨论
+                </h3>
+                <span th:if="${realtedDiscussion.isEmpty()}">
+                    <h4 class="related-null">
+                        暂时还没有相关的讨论，看看其他的吧！
+                    </h4>
+                </span>
                 <ul class="related-discussion">
                     <li  th:each="realteddiscussion:${realtedDiscussion}" class="related-li">
                         <a th:href="@{'/discussion/'+${realteddiscussion.id}}" th:text="${realteddiscussion.title}"></a>
@@ -134,9 +140,9 @@
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 related-hr">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h3>
-                    相关推荐
+                    推荐
                 </h3>
-                <img class="img-thumbnail discussion-recommend" src="/img/CHAIN.jpg">
+                <img class="img-thumbnail discussion-recommend media-img" src="/img/CHAIN.jpg">
             </div>
         </div>
     </div>
