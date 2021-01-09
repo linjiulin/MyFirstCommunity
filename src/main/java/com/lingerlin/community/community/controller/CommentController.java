@@ -5,7 +5,6 @@ import com.lingerlin.community.community.dto.CommentDTO;
 import com.lingerlin.community.community.dto.ResultDTO;
 import com.lingerlin.community.community.enums.CommentTypeEnum;
 import com.lingerlin.community.community.exception.CustomizeErrorCode;
-import com.lingerlin.community.community.mapper.CommentMapper;
 import com.lingerlin.community.community.model.Comment;
 import com.lingerlin.community.community.model.User;
 import com.lingerlin.community.community.service.CommentService;
@@ -21,12 +20,8 @@ import java.util.List;
  */
 @Controller
 public class CommentController {
-    @Autowired(required=true)
-    private CommentMapper commentMapper;
-
     @Autowired
     private CommentService commentService;
-
     @ResponseBody
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
     public Object post(@RequestBody CommentCreateDTO commentCreateDTO,
@@ -43,7 +38,7 @@ public class CommentController {
         comment.setGmtModified(comment.getGmtCreate());
         comment.setCommentator(user.getId());
         comment.setLikeCount(0L);
-        commentService.insert(comment);
+        commentService.insert(comment,user);
         return ResultDTO.okOf();
     }
 

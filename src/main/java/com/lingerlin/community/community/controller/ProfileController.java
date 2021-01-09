@@ -6,6 +6,7 @@ import com.lingerlin.community.community.mapper.UserMapper;
 import com.lingerlin.community.community.model.Discussion;
 import com.lingerlin.community.community.model.User;
 import com.lingerlin.community.community.service.DiscussionService;
+import com.lingerlin.community.community.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,13 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 public class ProfileController {
 
     @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private DiscussionMapper discussionMapper;
-
-    @Autowired
     private DiscussionService discussionService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping("/profile/{action}")
     public String profile(
@@ -42,13 +40,17 @@ public class ProfileController {
         if("discussions".equals(action)){
             model.addAttribute("section","discussions");
             model.addAttribute("sectionName","我的讨论");
+            PageDTO pageDTO = discussionService.list(user.getId(),page,size);
+            model.addAttribute("pages", pageDTO);
         }
         else if("replies".equals(action)){
+            PageDTO pageDTO = notificationService.list(user.getId(),page,size);
+            Integer unreadCount = notificationService.unreadCount(user.getId());
+            model.addAttribute("unreadCount",unreadCount);
             model.addAttribute("section","replies");
             model.addAttribute("sectionName","最新回复");
-        }
-        PageDTO pageDTO = discussionService.list(user.getId(),page,size);
             model.addAttribute("pages", pageDTO);
+        }
             return "profile";
     }
 }

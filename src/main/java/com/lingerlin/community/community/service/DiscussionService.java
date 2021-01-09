@@ -56,7 +56,7 @@ public class DiscussionService {
             discussionDTO.setUser(user);
             discussionDTOList.add(discussionDTO);
         }
-        pageDTO.setDiscussions(discussionDTOList);
+        pageDTO.setData(discussionDTOList);
 
         return pageDTO;
     }
@@ -69,7 +69,7 @@ public class DiscussionService {
      */
     public PageDTO list(Integer id, Integer page, Integer size) {
         PageDTO pageDTO = new PageDTO();
-        Integer totalcount = discussionMapper.count();
+        Integer totalcount = discussionMapper.countById(id);
         pageDTO.setPagination(totalcount,page,size);
         if(page<1){
             page=1;
@@ -88,7 +88,7 @@ public class DiscussionService {
             discussionDTO.setUser(user);
             discussionDTOList.add(discussionDTO);
         }
-        pageDTO.setDiscussions(discussionDTOList);
+        pageDTO.setData(discussionDTOList);
         return pageDTO;
     }
 

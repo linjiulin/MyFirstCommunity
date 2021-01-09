@@ -39,4 +39,7 @@ public interface DiscussionMapper {
 
     @Select("select * from DISCUSSION WHERE id != ${id} AND TAG REGEXP \'${tag}\'")
     List<Discussion> getRelatedDiscussionBytag(@Param(value = "id") Integer id,@Param(value = "tag") String tagRegex);
+
+    @Select("select count(1) from discussion where CREATOR=#{id}")
+    Integer countById(Integer id);
 }

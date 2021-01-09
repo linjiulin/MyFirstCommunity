@@ -24,19 +24,12 @@ import java.util.List;
 public class IndexController {
 
     @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private DiscussionMapper discussionMapper;
-
-    @Autowired
     private DiscussionService discussionService;
 
     @GetMapping("/")
     public String index(@RequestParam(name = "page", defaultValue = "1") Integer page,
-                        @RequestParam(name = "size", defaultValue = "8") Integer size,
+                        @RequestParam(name = "size", defaultValue = "7") Integer size,
                         Model model) {
-
         PageDTO pageDTO = discussionService.list(page, size);
         model.addAttribute("pages", pageDTO);
         return "index";

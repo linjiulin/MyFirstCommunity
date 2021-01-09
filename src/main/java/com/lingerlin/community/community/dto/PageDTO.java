@@ -10,8 +10,8 @@ import java.util.List;
 这个类是用来储存每页查询出来的讨论信息
  */
 @Data
-public class PageDTO {
-    private List<DiscussionDTO> discussions;
+public class PageDTO<T> {
+    private List<T> data;
     private boolean hasPrevious; //是否展示前一页按钮
     private boolean hasNext;//是否展示后一页按钮
     private boolean hasFirstPage;//是否展示第一页按钮

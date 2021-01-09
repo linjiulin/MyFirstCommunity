@@ -45,7 +45,7 @@
                         <div class="tab-content">
                             <div role="tabpanel" th:id="${selectCategory.categoryName}"
                                  th:each="selectCategory: ${tags}"
-                                 th:class="${selectCategoryStat.first ? 'active tab-pane':'tab-pane'}">
+                                 th:class="${selectCategoryStat.first ? 'active tab-pane tag-panel':'tab-pane tag-panel'}">
                                 <span>
                                     <span class="label label-info" th:each="selectTag: ${selectCategory.tags}">
                                     <span onclick="selectTag(this)"

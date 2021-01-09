@@ -24,6 +24,12 @@
     font-size: 13px;
     margin-bottom: 15px;
 }
+.edit-self{
+    color: #999;
+    font-size: 14px;
+    margin-bottom: 13px;
+    margin-top: 5px;
+}
 .jumbotron{
     margin: 50px;
 }
@@ -64,6 +70,13 @@
 }
 .menu .icon:hover{
     color: #499ef3;
+}
+.label-info:hover {
+    background: #1678ff;
+    cursor: pointer;
+}
+.tag-panel{
+    margin-top: 10px;
 }
 .comments{
     margin-bottom: 15px;
@@ -127,7 +140,7 @@
     padding-top: 12px;
 }
 .discussion-recommend{
-    width: 80%;
+    width: 90%;
 }
 .related-null{
     margin-left: 25px;
@@ -135,5 +148,9 @@
 }
 .media-img{
     margin-left: 25px;
+}
+.notification-text{
+    font-size: 17px;
+    margin-bottom: 7px;
 }
 

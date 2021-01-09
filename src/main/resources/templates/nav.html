@@ -25,6 +25,12 @@
                         <a href="/publish">发布</a>
                     </li>
                     <li th:if="${session.user!=null}">
+                        <a href="/profile/replies">通知
+                        <span class="badge" th:text="${session.unreadCount}"></span>
+                        </a>
+
+                    </li>
+                    <li th:if="${session.user!=null}">
                         <img width="50" class="media-object img-circle"
                              th:src="${session.user.avatar}">
                     </li>
