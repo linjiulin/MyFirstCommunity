@@ -45,4 +45,10 @@ public interface DiscussionMapper {
 
     @Delete("delete from DISCUSSION where ID = #{id}")
     void deleteById(Integer id);
+
+    @Select("select * from DISCUSSION where TITLE REGEXP \'${tagRegex}\' order by GMT_MODIFIED DESC limit #{offset},#{size}")
+    List<Discussion> listBySearch(@Param(value = "tagRegex") String tagRegex,@Param(value = "offset") Integer offset,@Param(value = "size") Integer size);
+
+    @Select("select count(*) FROM DISCUSSION WHERE TITLE REGEXP \'${tagRegex}\'")
+    Integer countBySearch(@Param(value = "tagRegex") String tagRegex);
 }

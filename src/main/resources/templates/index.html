@@ -49,27 +49,27 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li th:if="${pages.hasFirstPage}">
-                        <a href="#" aria-label="First" th:href="@{/(page=1)}">
+                        <a href="#" aria-label="First" th:href="@{/(page=1,search=${search})}">
                             <span aria-hidden="true">首页</span>
                         </a>
                     </li>
                     <li th:if="${pages.hasPrevious}">
-                        <a href="#" aria-label="Previous" th:href="@{/(page=${pages.localpage}-1)}">
+                        <a href="#" aria-label="Previous" th:href="@{/(page=${pages.localpage}-1,search=${search})}">
                             <span aria-hidden="true"><</span>
                         </a>
                     </li>
                     <li th:each="localpage:${pages.pages}" th:class="${pages.localpage == localpage}?'active' : ''"><a
-                            th:href="@{/(page=${localpage})}" th:text="${localpage}">
+                            th:href="@{/(page=${localpage},search=${search})}" th:text="${localpage}">
 
                     </a>
                     </li>
                     <li th:if="${pages.hasNext}">
-                        <a href="#" aria-label="Next" th:href="@{/(page=${pages.localpage}+1)}">
+                        <a href="#" aria-label="Next" th:href="@{/(page=${pages.localpage}+1,search=${search})}">
                             <span aria-hidden="true">></span>
                         </a>
                     </li>
                     <li th:if="${pages.hasEndPage}">
-                        <a href="#" aria-label="End" th:href="@{/(page=${pages.totalpage})}">
+                        <a href="#" aria-label="End" th:href="@{/(page=${pages.totalpage},search=${search})}">
                             <span aria-hidden="true">末页</span>
                         </a>
                     </li>

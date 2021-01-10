@@ -60,23 +60,33 @@ public class DiscussionService {
 
 
     /**
+     * @param search
      * @param page
      * @param size
      * @return
      */
-    public PageDTO list(Integer page, Integer size) {
+    public PageDTO list(String search,Integer page, Integer size) {
         PageDTO pageDTO = new PageDTO();
-        Integer totalcount = discussionMapper.count();
-        pageDTO.setPagination(totalcount,page,size);
+        Integer totalCount = 0;
+        Integer offset = size *(page-1);
+        List<Discussion> discussionList = new ArrayList<>();
+        if(StringUtils.isNotBlank(search)){
+            String[] tags = StringUtils.split(search,' ');
+            String tagRegex = Arrays.stream(tags).collect(Collectors.joining("|"));
+            totalCount = discussionMapper.countBySearch(tagRegex);
+            discussionList = discussionMapper.listBySearch(tagRegex,offset,size);
+        }
+        else{
+            totalCount = discussionMapper.count();
+            discussionList = discussionMapper.list(offset,size);
+        }
+        pageDTO.setPagination(totalCount,page,size);
         if(page<1){
             page=1;
         }
         if(page>pageDTO.getTotalpage()){
             page=pageDTO.getTotalpage();
         }
-
-        Integer offset = size *(page-1);
-        List<Discussion> discussionList = discussionMapper.list(offset,size);
         List<DiscussionDTO> discussionDTOList = new ArrayList<>();
         for (Discussion discussion : discussionList) {
             User user = userMapper.findById(discussion.getCreator());

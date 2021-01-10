@@ -18,7 +18,7 @@
 [LomBok支持](https://projectlombok.org/)  
 [spring-boot devtools](https://docs.spring.io/spring-boot/docs/1.5.16.RELEASE/reference/html/using-boot-devtools.html)  
 [JQuery](https://code.jquery.com/jquery-3.5.1.min.js)  
-[ApiPost-页面模拟请求插件](edge://extensions/?id=lbapjkpcenjdeddcdgodfaljhkphfmjp)  
+[ApiPost-页面模拟请求插件](https://chrome.google.com/webstore/detail/tabbed-postman-rest-clien/coohjcphdfgbiolnekdpbcijmhambjff)  
 [JSONEditOnline-在线编辑JSON](http://jsoneditoronline.cn/)  
 [CommentJS-js时间格式转换](http://momentjs.cn/)  
 [Markdown编辑器](http://editor.md.ipandao.com/)
