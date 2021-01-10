@@ -114,29 +114,6 @@ function collapseComments(e) {
         }
     }
 }
-function collapseComments_test(e) {
-    var id = e.getAttribute("data-id");
-    var comments = $("#comment-" + id);
-
-    // 获取一下二级评论的展开状态
-    var collapse = e.getAttribute("data-collapse");
-    if(collapse){
-        // 折叠二级评论
-        comments.removeClass("in");
-        e.removeAttribute("data-collapse");
-        e.classList.remove("active");
-    }
-    else {
-        $.getJSON("/comment/" + id, function (data) {
-            console.log(data)
-        });
-        //展开二级评论
-        comments.addClass("in");
-        // 标记二级评论展开状态
-        e.setAttribute("data-collapse", "in");
-        e.classList.add("active");
-    }
-}
 function showSelectTag() {
     $("#select-tag").show();
 }
@@ -153,8 +130,15 @@ function selectTag(e) {
         }
     }
 }
+function deleteBy(e) {
+    var msg = "请确定删除吗？\n\n请确认！";
+    if (confirm(msg) === true) {
+        deleteById(e)
+    } else {
+        return false;
+    }
+}
 function deleteById(e) {
-    alert("这将会删除你的讨论，确定吗?");
     var id=e.getAttribute("data-id");
     console.log(id);
     $.ajax({
@@ -179,4 +163,5 @@ function deleteById(e) {
             },
             dataType: "json"
     });
+    alert("删除成功")
 }

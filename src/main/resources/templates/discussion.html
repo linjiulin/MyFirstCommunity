@@ -10,7 +10,14 @@
     <!--    <link rel="shortcut icon" href="/img/LOGO.png" type="image/x-icon">-->
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <script src="/js/community.js" type="application/javascript"></script>
+
+    <link rel="stylesheet" href="/css/editormd.min.css">
+    <link rel="stylesheet" href="/css/editormd.preview.min.css">
+    <script src="/js/editormd.min.js" type="application/javascript"></script>
     <script src="/js/moment.js" type="application/javascript"></script>
+    <script src="/js/lib/marked.min.js"></script>
+    <script src="/js/lib/prettify.min.js"></script>
+
 </head>
 <body class="body">
 <div th:insert="~{nav::nav}"> </div>
@@ -37,15 +44,20 @@
                 </span>
                 <br>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp">
-
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 discussion-text" th:text="${discussion.description}">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="question-view">
+                    <textarea style="display:none;font-size: 30px" th:text="${discussion.description}"></textarea>
                 </div>
+                <script type="text/javascript">
+                    $(function () {
+                        editormd.markdownToHTML("question-view", {});
+                    });
+                </script>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <a th:href="@{'/publish/'+${discussion.id}}" class="community-menu" th:if="${session.user!=null && session.user.id == discussion.creator}">
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                     编辑
                 </a>
-                <a class="community-delete" th:if="${session.user!=null && session.user.id == discussion.creator}" th:data-id="${discussion.id}" ONCLICK="deleteById(this)">
+                <a class="community-delete" th:if="${session.user!=null && session.user.id == discussion.creator}" th:data-id="${discussion.id}" ONCLICK="deleteBy(this)">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     删除
                 </a>
@@ -146,7 +158,7 @@
                 <h3>
                     推荐
                 </h3>
-                <img class="img-thumbnail discussion-recommend media-img" src="/img/CHAIN.jpg">
+                <img class="img-thumbnail discussion-recommend media-img" src="/images/CHAIN.jpg">
             </div>
         </div>
     </div>
