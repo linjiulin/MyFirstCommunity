@@ -6,7 +6,9 @@ import com.lingerlin.community.community.exception.CustomizeErrorCode;
 import com.lingerlin.community.community.exception.CustomizeException;
 import com.lingerlin.community.community.mapper.DiscussionMapper;
 import com.lingerlin.community.community.mapper.UserMapper;
+import com.lingerlin.community.community.model.Comment;
 import com.lingerlin.community.community.model.Discussion;
+import com.lingerlin.community.community.model.Notification;
 import com.lingerlin.community.community.model.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -28,6 +30,33 @@ public class DiscussionService {
 
     @Autowired
     private DiscussionMapper discussionMapper;
+
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private CommentService commentService;
+
+    public void deleteAllById(Integer id) {
+        Discussion discussion = discussionMapper.findById(id);
+        if(discussion==null){
+            throw new CustomizeException(CustomizeErrorCode.DISCUSSION_NOT_FOUND);
+        }
+        discussionMapper.deleteById(id);
+        List<Notification> notificationList = notificationService.findByOuterId(id);
+        if(notificationList==null){
+            throw new CustomizeException(CustomizeErrorCode.NOTIFICATION_NOT_FOUND);
+        }
+        notificationService.deleteByOuterId(id);
+
+        List<Comment> commentList = commentService.findByDiscussionId(id);
+        if(commentList==null){
+            throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
+        }
+        for(Comment comment:commentList){
+            commentService.deleteByParentId(comment);
+        }
+    }
 
 
     /**

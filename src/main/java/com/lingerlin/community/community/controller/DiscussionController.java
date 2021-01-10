@@ -2,6 +2,7 @@ package com.lingerlin.community.community.controller;
 
 import com.lingerlin.community.community.dto.CommentDTO;
 import com.lingerlin.community.community.dto.DiscussionDTO;
+import com.lingerlin.community.community.dto.ResultDTO;
 import com.lingerlin.community.community.enums.CommentTypeEnum;
 import com.lingerlin.community.community.model.Discussion;
 import com.lingerlin.community.community.service.CommentService;
@@ -9,8 +10,7 @@ import com.lingerlin.community.community.service.DiscussionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,5 +39,13 @@ public class DiscussionController {
         model.addAttribute("comment",commentDTOList);
         model.addAttribute("realtedDiscussion",relatedDiscussionList);
         return "discussion";
+    }
+
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @ResponseBody
+    public Object doDelete(@RequestBody Integer id){
+        discussionService.deleteAllById(id);
+        System.out.println(id);
+        return ResultDTO.okOf();
     }
 }

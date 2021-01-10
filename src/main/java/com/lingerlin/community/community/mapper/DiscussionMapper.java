@@ -42,4 +42,7 @@ public interface DiscussionMapper {
 
     @Select("select count(1) from discussion where CREATOR=#{id}")
     Integer countById(Integer id);
+
+    @Delete("delete from DISCUSSION where ID = #{id}")
+    void deleteById(Integer id);
 }

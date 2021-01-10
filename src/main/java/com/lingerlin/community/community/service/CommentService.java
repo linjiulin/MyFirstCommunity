@@ -111,4 +111,13 @@ public class CommentService {
         System.out.println("查询出来的DTO为："+commentDTOList);
         return commentDTOList;
     }
+
+    public List<Comment> findByDiscussionId(Integer id) {
+        List<Comment> commentList = commentMapper.listByParentId(id,CommentTypeEnum.DISCUSSION.getType());
+        return commentList;
+    }
+
+    public void deleteByParentId(Comment comment) {
+        commentMapper.deleteByParentId(comment);
+    }
 }

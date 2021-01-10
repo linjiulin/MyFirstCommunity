@@ -153,3 +153,30 @@ function selectTag(e) {
         }
     }
 }
+function deleteById(e) {
+    alert("这将会删除你的讨论，确定吗?");
+    var id=e.getAttribute("data-id");
+    console.log(id);
+    $.ajax({
+        type: "POST",
+        url: "/delete",
+        contentType: 'application/json',
+        data:id,
+            success: function (response) {
+                if (response.code == 200) {
+                    window.open("/");
+                } else {
+                    if (response.code == 2003) {
+                        var isAccepted = confirm(response.message);
+                        if (isAccepted) {
+                            window.open("https://github.com/login/oauth/authorize?client_id=1c747ddb3458c5a04f72&redirect_uri=" + document.location.origin + "/callback&scope=user&state=1");
+                            window.localStorage.setItem("closable", true);
+                        }
+                    } else {
+                        alert(response.message);
+                    }
+                }
+            },
+            dataType: "json"
+    });
+}

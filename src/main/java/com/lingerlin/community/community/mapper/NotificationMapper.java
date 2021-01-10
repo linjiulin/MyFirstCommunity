@@ -28,4 +28,10 @@ public interface NotificationMapper {
 
     @Select("select count(1) from NOTIFICATION where STATUS = ${status} AND RECEIVER = #{receiver}")
     Integer unreadCountByReceiver(@Param(value = "receiver") Integer receiver, @Param(value = "status") int status);
+
+    @Select("select * from NOTIFICATION WHERE OUTER_ID=#{outerId}")
+    List<Notification> selectByOuterId(Integer outerId);
+
+    @Delete("delete from NOTIFICATION WHERE OUTER_ID=#{outerId}")
+    void deleteByOuterId(Integer outerId);
 }

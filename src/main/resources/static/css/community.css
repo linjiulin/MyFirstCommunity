@@ -19,10 +19,16 @@
     margin-top: 15px;
 }
 .community-menu{
-    display: block;
+    /*display: block;*/
     color: #999;
-    font-size: 13px;
+    font-size: 15px;
     margin-bottom: 15px;
+}
+.community-delete{
+    color: #999;
+    font-size: 15px;
+    margin-bottom: 15px;
+    float: right;
 }
 .edit-self{
     color: #999;

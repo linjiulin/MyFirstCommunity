@@ -22,4 +22,10 @@ public interface CommentMapper {
 
     @Update("update COMMENT set COMMENT_COUNT = COMMENT_COUNT+1 where ID=#{id}")
     void UpdateCommentCountById(@Param(value = "id") Integer parentId);
+
+    @Select("select * FROM COMMENT WHERE PARENT_ID=#{parentId}")
+    List<Comment> selectIdByParentId(@Param(value = "parentId") Integer parentId);
+
+    @Delete("delete FROM COMMENT WHERE PARENT_ID = #{id} OR PARENT_ID=#{parentId}")
+    void deleteByParentId(Comment comment);
 }

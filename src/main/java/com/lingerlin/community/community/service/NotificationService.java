@@ -76,4 +76,14 @@ public class NotificationService {
         Integer unreadCount = notificationMapper.unreadCountByReceiver(receiver,NotificationStatusEnum.UNREAD.getStatus());
         return unreadCount;
     }
+
+
+    public void deleteByOuterId(Integer id) {
+        notificationMapper.deleteByOuterId(id);
+    }
+
+    public List<Notification> findByOuterId(Integer id) {
+        List<Notification> notificationList = notificationMapper.selectByOuterId(id);
+        return notificationList;
+    }
 }
