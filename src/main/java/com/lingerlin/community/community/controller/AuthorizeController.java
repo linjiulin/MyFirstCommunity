@@ -4,8 +4,10 @@ import com.lingerlin.community.community.dto.AccessTokenDto;
 import com.lingerlin.community.community.dto.GithubUser;
 import com.lingerlin.community.community.mapper.UserMapper;
 import com.lingerlin.community.community.model.User;
+import com.lingerlin.community.community.model.UserMongo;
 import com.lingerlin.community.community.provider.GithubProvider;
 import com.lingerlin.community.community.service.UserService;
+import com.lingerlin.community.community.service.UserServiceMongo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -37,6 +39,9 @@ public class AuthorizeController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserServiceMongo userServiceMongo;
+
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
@@ -54,9 +59,22 @@ public class AuthorizeController {
         GithubUser githubUser = githubProvider.getUser(accessToken);
         if(githubUser !=null){
             //登录成功，写cookie和session
-            User user = new User();
-            String token = UUID.randomUUID().toString();//抽出token的目的是为了让其代替cookie
-            userService.checkUser(githubUser,response,token,user);//判断用户
+
+             //用MySQL来判断
+//            User user = new User();
+//            //抽出token的目的是为了让其代替cookie
+//            String token = UUID.randomUUID().toString();
+//            //判断用户
+//            userService.checkUser(githubUser,response,token,user);
+
+            //用MongoDB来判断
+            UserMongo user = new UserMongo();
+            //抽出token的目的是为了让其代替cookie
+            String token = UUID.randomUUID().toString();
+            //判断用户
+            userServiceMongo.checkUserByMongo(githubUser,response,token,user);
+
+
             return "redirect:/";//重定向到根目录页面
         }
         else{

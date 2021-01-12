@@ -1,15 +1,13 @@
 package com.lingerlin.community.community.service;
 
+import com.lingerlin.community.community.dao.MongoDiscussionDao;
 import com.lingerlin.community.community.dto.DiscussionDTO;
 import com.lingerlin.community.community.dto.PageDTO;
 import com.lingerlin.community.community.exception.CustomizeErrorCode;
 import com.lingerlin.community.community.exception.CustomizeException;
 import com.lingerlin.community.community.mapper.DiscussionMapper;
 import com.lingerlin.community.community.mapper.UserMapper;
-import com.lingerlin.community.community.model.Comment;
-import com.lingerlin.community.community.model.Discussion;
-import com.lingerlin.community.community.model.Notification;
-import com.lingerlin.community.community.model.User;
+import com.lingerlin.community.community.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

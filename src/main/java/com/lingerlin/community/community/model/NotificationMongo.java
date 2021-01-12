@@ -6,11 +6,11 @@ import lombok.Data;
  * @author lingerlin
  */
 @Data
-public class Notification {
-    private Integer id;
-    private Integer notifier;
-    private Integer receiver;
-    private Integer outerId;
+public class NotificationMongo {
+    private String _id;
+    private String notifier;
+    private String receiver;
+    private String outerId;
     private Integer type;
     private Long gmtCreate;
     private Integer status;

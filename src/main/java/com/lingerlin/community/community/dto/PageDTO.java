@@ -44,7 +44,7 @@ public class PageDTO<T> {
                 pages.add(page+i);
             }
         }
-        if(page==1){//是否展示上一页
+        if(page==1||page==0){//是否展示上一页
             hasPrevious=false;
         }
         else{
@@ -57,7 +57,7 @@ public class PageDTO<T> {
             hasNext = true;
         }
         //是否展示第一页
-        if(pages.contains(1)){
+        if(pages.contains(1)||page==0){
             hasFirstPage=false;
         }
         else{

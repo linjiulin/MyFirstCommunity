@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
     <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/community.css"/>
-<!--    <link rel="shortcut icon" href="/img/LOGO.png" type="image/x-icon">-->
+    <link rel="shortcut icon" href="/images/LOGO.png" type="image/x-icon">
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 <body class="body">
@@ -27,7 +27,7 @@
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading" >
-                            <a th:href="@{'/discussion/'+${discussion.id}}" th:text="${discussion.title}"> </a>
+                            <a th:href="@{'/discussion/'+${discussion._id}}" th:text="${discussion.title}"> </a>
                         </h4>
                         <!--                    <span th:text="${discussion.description}"></span><br>-->
                         <span class="text">
@@ -35,7 +35,7 @@
                         <span th:text="${discussion.viewCount}?:0"></span> 次浏览 ·
                         最后修改于 <span th:text="${#dates.format(discussion.gmtModified,'yyyy-MM-dd HH:mm')}"></span>
                          ·
-                        <a th:href="@{'/publish/'+${discussion.id}}" class="edit-self">
+                        <a th:href="@{'/publish/'+${discussion._id}}" class="edit-self">
                             <span class="glyphicon glyphicon-pencil" aria-hidden="true">编辑</span>
                         </a>
                     </span>
@@ -47,7 +47,7 @@
                     <div class="media-body">
                         <h4 class="media-heading" >
                             <span th:text="${notification.notifierName +' ' + '回复了问题' + ' '}"></span>
-                            <a th:href="@{'/notification/'+ ${notification.id}}"
+                            <a th:href="@{'/notification/'+ ${notification._id}}"
                                th:text="${notification.outerTitle}">
                             </a>
                             <span th:if="${notification.typeName=='回复了评论'}" th:text="中你的评论"></span>

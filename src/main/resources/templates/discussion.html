@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
     <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/community.css"/>
-    <!--    <link rel="shortcut icon" href="/img/LOGO.png" type="image/x-icon">-->
+    <link rel="shortcut icon" href="/images/LOGO.png" type="image/x-icon">
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <script src="/js/community.js" type="application/javascript"></script>
 
@@ -53,11 +53,11 @@
                     });
                 </script>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <a th:href="@{'/publish/'+${discussion.id}}" class="community-menu" th:if="${session.user!=null && session.user.id == discussion.creator}">
+                <a th:href="@{'/publish/'+${discussion._id}}" class="community-menu" th:if="${session.user!=null && session.user._id == discussion.creator}">
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                     编辑
                 </a>
-                <a class="community-delete" th:if="${session.user!=null && session.user.id == discussion.creator}" th:data-id="${discussion.id}" ONCLICK="deleteBy(this)">
+                <a class="community-delete" th:if="${session.user!=null && session.user._id == discussion.creator}" th:data-id="${discussion._id}" ONCLICK="deleteBy(this)">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     删除
                 </a>
@@ -65,6 +65,7 @@
             <!--回复-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h3>
+                    <span th:if="${discussion.commentCount==null}">0</span>
                     <span th:text="${discussion.commentCount}"></span>个回复
                 </h3>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp">
@@ -75,21 +76,21 @@
                                 <img width="38" class="media-object img-rounded" th:src="${comment.user.avatar}" style="float:left">
                             </a>
                         </div>
-                        <div class="media-body comment-media-text " th:id="${'comment-body-'+comment.id}">
+                        <div class="media-body comment-media-text " th:id="${'comment-body-'+comment._id}">
                             <h4 class="media-heading">
                                 <span th:text="${comment.user.name}"></span>
-                                <span th:if="${comment.user.id==discussion.user.id}">(题主)</span>
+                                <span th:if="${comment.user._id==discussion.user._id}">(题主)</span>
                             </h4>
                             <div th:text="${comment.content}"></div>
                             <div class="menu">
                                 <span class="glyphicon glyphicon-thumbs-up icon"></span>
-                                <span class="glyphicon glyphicon-comment icon" th:data-id="${comment.id}" onclick="collapseComments(this)" th:text="${comment.commentCount}"></span>
+                                <span class="glyphicon glyphicon-comment icon" th:data-id="${comment._id}" onclick="collapseComments(this)" th:text="${comment.commentCount}"></span>
                                 <span class="pull-right" th:text="${#dates.format(discussion.gmtModified,'yyyy-MM-dd')}"></span>
                             </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comments" th:id="${'comment-'+comment.id}">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comments" th:id="${'comment-'+comment._id}">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <input type="text" class="form-control" placeholder="评论一下......" th:id="${'input-'+comment.id}">
-                                    <button type="button" class="btn btn-success pull-right" onclick="comment(this)" th:data-id="${comment.id}">评论</button>
+                                    <input type="text" class="form-control" placeholder="评论一下......" th:id="${'input-'+comment._id}">
+                                    <button type="button" class="btn btn-success pull-right" onclick="comment(this)" th:data-id="${comment._id}">评论</button>
                                 </div>
                             </div>
                         </div>
@@ -113,7 +114,7 @@
                             </h4>
                     </div>
                 </div>
-                <input type="hidden" id="discussion_id" th:value="${discussion.id}">
+                <input type="hidden" id="discussion_id" th:value="${discussion._id}">
                 <textarea style="resize: none"  class="form-control comment" rows="8" id="comment_content"></textarea>
                 <button type="button" class="btn btn-success comment-btn" onclick="post()">回复</button>
             </div>
@@ -149,7 +150,7 @@
                 </span>
                 <ul class="related-discussion">
                     <li  th:each="realteddiscussion:${realtedDiscussion}" class="related-li">
-                        <a th:href="@{'/discussion/'+${realteddiscussion.id}}" th:text="${realteddiscussion.title}"></a>
+                        <a th:href="@{'/discussion/'+${realteddiscussion._id}}" th:text="${realteddiscussion.title}"></a>
                     </li>
                 </ul>
             </div>
