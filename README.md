@@ -24,54 +24,79 @@
 [Markdown编辑器](http://editor.md.ipandao.com/)
 ## 脚本  
 ```sql
-    create table USER
-    (
-        ID           INT auto_increment,
-        ACCOUNT_ID   VARCHAR(100),
-        NAME         VARCHAR(50),
-        TOKEN        CHAR(36),
-        GMT_CREATE   BIGINT,
-        GMT_MODIFIED BIGINT,
-        constraint USER_PK
-            primary key (ID)
-    );  
+-- auto-generated definition
+create table USER
+(
+    ID           INT auto_increment
+        primary key,
+    ACCOUNT_ID   VARCHAR(100),
+    NAME         VARCHAR(50),
+    TOKEN        CHAR(36),
+    GMT_CREATE   BIGINT,
+    GMT_MODIFIED BIGINT,
+    BIO          VARCHAR(256),
+    AVATAR       VARCHAR(100)
+);
+
+
 ```    
 
 ```sql
-    alter table USER
-	add BIO VARCHAR(256);
+-- auto-generated definition
+create table DISCUSSION
+(
+    ID            INT auto_increment
+        primary key,
+    TITLE         VARCHAR(50),
+    DESCRIPTION   TEXT,
+    GMT_CREATE    BIGINT,
+    GMT_MODIFIED  BIGINT,
+    COMMENT_COUNT INT default 0,
+    VIEW_COUNT    INT default 0,
+    LIKE_COUNT    INT default 0,
+    TAG           VARCHAR(256),
+    CREATOR       INT
+);
+
+
 ```    
 
 ```sql
-   create table discussion
-   (
-        ID int auto_increment,
-        TITLE VARCHAR(50),
-        DESCRIPTION TEXT,
-        GMT_CREATE BIGINT,
-        GMT_MODIFIED BIGINT,
-        CREATOR int,
-        COMMENT_COUNT int default 0,
-        VIEW_COUNT int default 0,
-        LIKE_COUNT int default 0,
-        TAG VARCHAR(256),
-        constraint discussion_pk
-            primary key (ID)
-   );
+-- auto-generated definition
+create table COMMENT
+(
+    ID            INT auto_increment,
+    PARENT_ID     INT not null,
+    TYPE          INT not null,
+    COMMENTATOR   INT,
+    GMT_CREATE    BIGINT,
+    GMT_MODIFIED  BIGINT,
+    LIKE_COUNT    BIGINT default 0,
+    CONTENT       VARCHAR(1024),
+    COMMENT_COUNT INT    default 0,
+    constraint COMMENT_PK
+        primary key (ID)
+);
+
+
 ```
 ```sql
-    create table comment
-    (
-        id BIGINT auto_increment,
-        parent_id BIGINT not null,
-        type int not null,
-        commentator int,
-        gmt_create BIGINT,
-        gmt_modified BIGINT,
-        like_count BIGINT default 0,
-        constraint comment_pk
-            primary key (id)
+-- auto-generated definition
+create table NOTIFICATION
+(
+    ID            INT auto_increment
+        primary key,
+    NOTIFIER      INT           not null,
+    RECEIVER      INT           not null,
+    OUTER_ID      INT           not null,
+    TYPE          INT           not null,
+    GMT_CREATE    BIGINT        not null,
+    STATUS        INT default 0 not null,
+    NOTIFIER_NAME VARCHAR(50)   not null,
+    OUTER_TITLE   VARCHAR(50)   not null
 );
+
+
 ```
 ```bash  
 mvn flyway:migrate
